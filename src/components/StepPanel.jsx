@@ -99,6 +99,12 @@ export default function StepPanel() {
         <WidgetComponent params={params} />
       </div>
 
+      <div style={{ padding: '20px', background: '#f9f9f9', borderRadius: '8px', margin: '20px 0', color: '#333' }}>
+        <p style={{ whiteSpace: 'pre-wrap', fontSize: '1.1rem', lineHeight: '1.6' }}>
+          {step.description}
+        </p>
+      </div>
+
       <p className="paramLine">
         Live parameters —{" "}
         <span className="pill">S₀: {params?.S0 ?? "—"}</span>{" "}
