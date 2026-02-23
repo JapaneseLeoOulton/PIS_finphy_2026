@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppStore } from "../state/store";
 import { getStepById, steps } from "../data/steps";
 import RealWienerWidget from "../widgets/WienerWidget.jsx";
 import GBMSinglePathWidget from "../widgets/GBMSinglePathWidget.jsx";
-
 
 function PlaceholderWidget({ params }) {
   return (
@@ -29,7 +28,6 @@ function WienerWidgetPlaceholder({ params }) {
     </div>
   );
 }
-
 
 function GBMManyPathsWidget({ params }) {
   return (
@@ -79,7 +77,6 @@ const WIDGET_REGISTRY = {
   DecisionTheoryWidget,
 };
 
-
 export default function StepPanel() {
   const { state } = useAppStore();
   const activeStepId = state.activeStepId;
@@ -87,6 +84,13 @@ export default function StepPanel() {
 
   const step = getStepById(activeStepId) ?? steps[0];
   const WidgetComponent = WIDGET_REGISTRY[step.widgetKey] ?? PlaceholderWidget;
+
+  
+  useEffect(() => {
+    if (window.MathJax?.typesetPromise) {
+      window.MathJax.typesetPromise();
+    }
+  }, [activeStepId, step?.description]);
 
   return (
     <section className="stepPanel">
@@ -99,11 +103,21 @@ export default function StepPanel() {
         <WidgetComponent params={params} />
       </div>
 
-      <div style={{ padding: '20px', background: '#f9f9f9', borderRadius: '8px', margin: '20px 0', color: '#333' }}>
-        <p style={{ whiteSpace: 'pre-wrap', fontSize: '1.1rem', lineHeight: '1.6' }}>
-          {step.description}
-        </p>
-      </div>
+      {step.description && (
+        <div
+          style={{
+            padding: "20px",
+            background: "#f9f9f9",
+            borderRadius: "8px",
+            margin: "20px 0",
+            color: "#333",
+          }}
+        >
+          <p style={{ whiteSpace: "pre-wrap", fontSize: "1.1rem", lineHeight: "1.6" }}>
+            {step.description}
+          </p>
+        </div>
+      )}
 
       <p className="paramLine">
         Live parameters —{" "}
