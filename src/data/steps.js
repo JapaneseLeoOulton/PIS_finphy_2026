@@ -23,6 +23,57 @@ developed in physics (particularly in the Manhattan Project) before being adopte
 The conceptual similarities between a particle undergoing molecular collisions and a stock
 price buffeted by market forces is remarkable.
 
+As early as c. 60 BC, humans had at least commented on the erratic behaviour of particles within a fluid. In his poem De Rerum
+Natura (‘On the Nature of Things’), Lucretius describes dust particles illuminated by a setting sun. This is likely the first recorded
+observation of the stochastic process that applies modern financial systems. Although what Lucretius saw was likely caused not
+by true Brownian motion but by air currents, he at least "perfectly describes and explains the Brownian movement by a wrong
+example". Crucially, Lucretius concludes that microscopic collisions cause general macroscopic motion. This forms the basis for
+stochastic analysis. Mathematically, Lucretius' observations mirror (at least in a logical sense) a discrete random walks, where the
+position $X_n$ after n steps is defined by
+
+$X_n = \\sum_{i=1}^{n} Z_i$
+
+where $Z_i$ represents the Lucretius’ ‘invisible’ collisions. Formally we now call $Z_i$ stochastic increments. Note that $n \\in N$. The
+next known observation of stochastic motion arrives from the Dutch Physicist Jan Ingenhousz. He notes the irregular movement
+of finely powdered charcoal suspended in alcohol. Some historians claim this as the first experimental discovery of what Brown
+has been accredited for. However, our analysis of primary sources reveals this is likely not the case. Strict Brownian motion
+requires a state of thermal equilibrium, yet in Ingenhousz’s analysis, the use of uncovered alcohol created rapid evaporation.
+Instead, convection currents drove what Ingenhousz saw. Notably, the charcoal particles he observed where roughly 100μm. Our
+calculations justify why this indicates he was not the first to discover Brownian motion. The **Stokes-Einstein Equation**
+shows that the diffusion coefficient D, which measures the strength of random ‘jiggling’, is inversely proportional to the
+particle's radius a,
+
+$$D = \\frac{k_B T}{6\\pi\\eta a}$$
+
+To explain why Ingenhousz's observation of 100μm charcoal particles (where a = 50μm) fails the criteria for Brownian motion,
+we calculate the root mean square (RMS) displacement $\\Delta x$ over a time interval t:
+
+$$\\sqrt{\\langle \\Delta x^2 \\rangle} = \\sqrt{2Dt}$$
+
+Using the viscosity of ethanol ($\\eta \\approx 1.2 \\times 10^{-3}$ Pa·s) at room temperature (T = 293 K), the diffusion coefficient for a particle
+of this size is approximately $D = 3.5 \\times 10^{-15}$ m²/s. For an observation period of t = 1s, the displacement is:
+
+$$\\Delta x = \\sqrt{2(3.5 \\times 10^{-15})(1)} = 8.4 \\times 10^{-8} m = 0.084\\mu m$$
+
+Because the displacement (0.084μm) is less than 0.1% of the particle's diameter (100μm), the motion would be imperceptible
+under the microscopes of 1784. Therefore, the “violent" motion Ingenhousz saw was not stochastic diffusion, but likely
+convection caused by evaporation. In financial terms, this is the equivalent of a “high-beta" environment where the volatility of a
+single stock is completely drowned out by a massive market-wide trend. The underlying stochasticity exists, but the Péclet-like
+ratio of the market indicates that the systemic drift $\\mu$ has overwhelmed the idiosyncratic diffusion $\\sigma$.
+
+Whilst Norbert Wiener is lauded for his contributions to financial physics, before him there was Louis Bachelier (1870-1946). In his dissertation (written in Paris in 1900) and his subsequent work, he predicted much that was to come in financial physics, namely random walks and Brownian Motion. In his thesis, he had worked out the Wiener process and linked it mathematically to the diffusion equation, before both Einstein and Wiener.
+
+Bachelier assumed that the movement of a price of an infinitesimal time period dt followed a normal distribution with a mean of 0. He established in his mathematical formulation that the total displacement x after time t is a random variable. Bachelier also argued that the variance must be proportional to the time elapsed in order for the process to be consistent, leading to the equation:
+$Var(x) = \\sigma^2 t$
+where $\\sigma$ is the volatility. This led to the insight that the 'scatter' of the random work grows proportionally to $t^{0.5}$, not t.
+
+Another groundbreaking discovery that Bachelier made is the connection between probability and calculus. He showed that the way a probability distribution spreads out over time is identical to the way in which heat spreads out in one dimension. He showed that the probability density P satisfies the heat equation:
+$$\\frac{\\delta P}{\\delta t} = D(\\frac{\\delta^2 P}{\\delta x^2})$$
+
+In the context of finance, D represents the diffusion coefficient, which is related to the market volatility.
+
+Whilst Bachelier remained unknown compared to Einstein and Wiener during and after his, nowadays he is recognised internationally as the father of financial mathematics.
+
 However, Brownian motion showed no uses to the financial industry until mathematician Norbert Wiener
 defined the Wiener process in 1918. Wiener defined a way to calculate the probability of a particle
 taking a specific set of paths - this is known as the Wiener process.
@@ -30,47 +81,7 @@ taking a specific set of paths - this is known as the Wiener process.
 The basic Wiener process can take negative values, which made it unsuitable for direct stock price
 modelling. Stock prices, after all, cannot fall below zero, a company's value may plummet, but it cannot
 become negative. Therefore, the mathematical framework was adapted to create Geometric Brownian Motion (GBM),
-which ensures price changes are proportional to the current price level.
-
-As early as c. 60 BC, humans had at least commented on the erratic behaviour of partides within a fluid. In his poem De Rerum
-Natura (‘On the Nature of Things’), Lucretius describes dust particles illuminated by a setting sun. This is likely the first recorded
-observation of the stochastic process that applies modern financial systems. Although what Lucretius saw was likely caused not
-by true Brownian motion but by air currents, he at least "perfectly describes and explains the Brownian movement by a wrong
-example". Crucially, Lucretius concludes that microscopic collisions cause general macroscopic motion. This forms the basis for
-stochastic analysis. Mathematically, Lucretius' observations mirror (at least in a logical sense) a discrete random walks, where the
-position X,, after n steps is defined by
-
-Xz = 3 Zi
-i=1
-
-where Z; represents the Lucretius’ ‘invisible’ collisions. Formally we now call Z; stochastic increments. Note that 7 € N. The
-next known observation of stochastic motion arrives from the Dutch Physicist Jans Igenhousz. He notes the imegular movement
-of finely powdered charcoal suspended in alcohol. Some historians daim this as the first experimental discovery of what Brown
-has been accredited for. However, our analysis of primary sources reveals this is likely not the case. Strict Brownian motion
-requires a state of thermal equilibrium, yet in Ingenhousz’s analysis, the use of uncovered alcohol created rapid evaporation.
-Instead, convection currents drove what |genhousz saw. Notably, the charcoal particles he observed where roughly 100m. Our
-calculations justify why this indicates he was not the first to discover Brownian motion. The \\textbf{Stokes-Einstein Equation}
-shows that the diffusion coefficient D, which measures the strength of random ‘jiggling’, is inversely proportional to the
-particle's radius a,
-
-kpT
-p=—
-6rna
-To explain why Ingenhousz's observation of 100m. charcoal particles (where a = 50jm) fails the criteria for Brownian motion,
-we calculate the root mean square (RMS) displacement Az over a time interval ¢:
-
-y (Az?) = V2Dt
-
-Using the viscosity of ethanol (7 1.2 x 10—? Pa - s) at room temperature (T' = 293 K), the diffusion coefficient for a particle
-of this size is approximately D = 3.5 x 107° m?/s. For an observation period of ¢ = 1s, the displacement is:
-
-Az = 4/2(3.5 x L07)(1) = 8.4 x 107? m = 0.084um
-
-Because the displacement (0.0841) is less than 0.1% of the particle's diameter (100jm), the motion would be imperceptible
-under the microscopes of 1784, Therfore, the “violent" motion Ingenhousz saw was not stochastic diffusion, but likely
-convection caused by evaporation. In financial terms, this is the equivalent of a “high-beta" environment where the volatility of a
-single stock is completely drowned out by a massive market-wide trend. The underlying stochasticity exists, but the Péclet-like
-ratio of the market indicates that the systemic dnft 4 has overwhelmed the idiosyncratic diffusion ¢.`,
+which ensures price changes are proportional to the current price level.`,
   widgetKey: "PlaceholderWidget",
   pinsByDefault: false,
 },
@@ -184,10 +195,10 @@ For Geometric Brownian Motion specifically, the scheme becomes
   S(t + \\Delta t) = S(t) + \\mu S(t)\\,\\Delta t + \\sigma S(t)\\,\\sqrt{\\Delta t}\\,Z.
 \\]
 
-The algorithm is straightforward. We begin with the initial condition \\( S_0 \\).
-At each time step, we draw a random number \\( Z \\) from a standard normal distribution.
-We then update the price using the formula above. We repeat this process for \\( N \\) steps
-until we reach the final time \\( T \\). The result is a single simulated path, with one
+The algorithm is straightforward. We begin with the initial condition $S_0$.
+At each time step, we draw a random number $Z$ from a standard normal distribution.
+We then update the price using the formula above. We repeat this process for $N$ steps
+until we reach the final time $T$. The result is a single simulated path, with one
 possible trajectory that the stock price might follow given the model parameters.`,
     widgetKey: "GBMSinglePathWidget",
     pinsByDefault: true,
