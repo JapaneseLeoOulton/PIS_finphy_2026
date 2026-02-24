@@ -15,6 +15,67 @@ However, this deterministic framework breaks down when confronted with the reali
   },
 
   {
+  id: "history",
+  title: "Background & History",
+  short: "Origins of GBM and Monte Carlo",
+  description: `Physicists have used these same ideas for a while. Many Monte Carlo techniques were first
+developed in physics (particularly in the Manhattan Project) before being adopted by finance.
+The conceptual similarities between a particle undergoing molecular collisions and a stock
+price buffeted by market forces is remarkable.
+
+However, Brownian motion showed no uses to the financial industry until mathematician Norbert Wiener
+defined the Wiener process in 1918. Wiener defined a way to calculate the probability of a particle
+taking a specific set of paths - this is known as the Wiener process.
+
+The basic Wiener process can take negative values, which made it unsuitable for direct stock price
+modelling. Stock prices, after all, cannot fall below zero, a company's value may plummet, but it cannot
+become negative. Therefore, the mathematical framework was adapted to create Geometric Brownian Motion (GBM),
+which ensures price changes are proportional to the current price level.
+
+As early as c. 60 BC, humans had at least commented on the erratic behaviour of partides within a fluid. In his poem De Rerum
+Natura (‘On the Nature of Things’), Lucretius describes dust particles illuminated by a setting sun. This is likely the first recorded
+observation of the stochastic process that applies modern financial systems. Although what Lucretius saw was likely caused not
+by true Brownian motion but by air currents, he at least "perfectly describes and explains the Brownian movement by a wrong
+example". Crucially, Lucretius concludes that microscopic collisions cause general macroscopic motion. This forms the basis for
+stochastic analysis. Mathematically, Lucretius' observations mirror (at least in a logical sense) a discrete random walks, where the
+position X,, after n steps is defined by
+
+Xz = 3 Zi
+i=1
+
+where Z; represents the Lucretius’ ‘invisible’ collisions. Formally we now call Z; stochastic increments. Note that 7 € N. The
+next known observation of stochastic motion arrives from the Dutch Physicist Jans Igenhousz. He notes the imegular movement
+of finely powdered charcoal suspended in alcohol. Some historians daim this as the first experimental discovery of what Brown
+has been accredited for. However, our analysis of primary sources reveals this is likely not the case. Strict Brownian motion
+requires a state of thermal equilibrium, yet in Ingenhousz’s analysis, the use of uncovered alcohol created rapid evaporation.
+Instead, convection currents drove what |genhousz saw. Notably, the charcoal particles he observed where roughly 100m. Our
+calculations justify why this indicates he was not the first to discover Brownian motion. The \\textbf{Stokes-Einstein Equation}
+shows that the diffusion coefficient D, which measures the strength of random ‘jiggling’, is inversely proportional to the
+particle's radius a,
+
+kpT
+p=—
+6rna
+To explain why Ingenhousz's observation of 100m. charcoal particles (where a = 50jm) fails the criteria for Brownian motion,
+we calculate the root mean square (RMS) displacement Az over a time interval ¢:
+
+y (Az?) = V2Dt
+
+Using the viscosity of ethanol (7 1.2 x 10—? Pa - s) at room temperature (T' = 293 K), the diffusion coefficient for a particle
+of this size is approximately D = 3.5 x 107° m?/s. For an observation period of ¢ = 1s, the displacement is:
+
+Az = 4/2(3.5 x L07)(1) = 8.4 x 107? m = 0.084um
+
+Because the displacement (0.0841) is less than 0.1% of the particle's diameter (100jm), the motion would be imperceptible
+under the microscopes of 1784, Therfore, the “violent" motion Ingenhousz saw was not stochastic diffusion, but likely
+convection caused by evaporation. In financial terms, this is the equivalent of a “high-beta" environment where the volatility of a
+single stock is completely drowned out by a massive market-wide trend. The underlying stochasticity exists, but the Péclet-like
+ratio of the market indicates that the systemic dnft 4 has overwhelmed the idiosyncratic diffusion ¢.`,
+  widgetKey: "PlaceholderWidget",
+  pinsByDefault: false,
+},
+
+  {
     id: "brownian",
     title: "Brownian Motion",
     short: "Wiener process foundations",
@@ -148,31 +209,7 @@ The algorithm is straightforward. We begin with the initial condition \\( S_0 \\
 At each time step, we draw a random number \\( Z \\) from a standard normal distribution.
 We then update the price using the formula above. We repeat this process for \\( N \\) steps
 until we reach the final time \\( T \\). The result is a single simulated path, with one
-possible trajectory that the stock price might follow given the model parameters.
-
-A single simulated path doesn't tell us much. It only represents one possible future out of
-infinitely many. The true power of stochastic simulation comes from generating many paths
-and analysing their statistical properties. This is where Monte Carlo comes in.
-
-The procedure is as follows, we run the Euler-Maruyama algorithm thousands or millions of
-times, each time with independently drawn random numbers. Each run produces a different
-trajectory \\( S_1(t), S_2(t), \\ldots, S_m(t) \\). From this group of runs, we can compute
-the mean final price, the variance, percentiles for risk assessment, probabilities of
-extreme outcomes, etc.
-
-For example, to estimate the probability that a stock price exceeds £150 after one year
-(given \\( S_0 = 100 \\), \\( \\mu = 0.08 \\), and \\( \\sigma = 0.20 \\)), we simulate
-100,000 paths and count how many of these paths satisfy \\( S(1) > 150 \\).
-The fraction of paths meeting this criterion provides an estimate of the desired probability.
-
-Monte Carlo methods are particularly valuable because they scale well to high-dimensional
-problems. For a portfolio of \\( n \\) correlated assets, we can simply simulate all
-processes simultaneously at each time step.
-
-Physicists have used these same ideas for a while. Many Monte Carlo techniques were first
-developed in physics (particularly in the Manhattan Project) before being adopted by finance.
-The conceptual similarities between a particle undergoing molecular collisions and a stock
-price buffeted by market forces is remarkable.`,
+possible trajectory that the stock price might follow given the model parameters.`,
     widgetKey: "GBMSinglePathWidget",
     pinsByDefault: true,
   },
