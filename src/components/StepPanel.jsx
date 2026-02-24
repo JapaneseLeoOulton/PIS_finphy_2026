@@ -61,7 +61,7 @@ function DecisionTheoryWidget({ params }) {
       <h3>Decision Theory</h3>
       <ul>
         <li>Choose an action by minimizing expected loss.</li>
-        <li>\(a^* = \arg\min_a \mathbb{E}[L(a,X)]\)</li>
+        <li>{"\\(a^* = \\arg\\min_a \\mathbb{E}[L(a,X)]\\)"}</li>
         <li>μ = {params?.mu ?? "—"}, T = {params?.T ?? "—"}</li>
       </ul>
     </div>
