@@ -1,5 +1,18 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import Plot from "react-plotly.js";
+
+// --- MathJax helper (requires MathJax v3 loaded in index.html) ---
+function useMathJax(containerRef, deps = []) {
+  useEffect(() => {
+    const mj = window.MathJax;
+    const el = containerRef?.current;
+    if (!mj || !el) return;
+
+    mj.typesetClear?.([el]);
+    mj.typesetPromise?.([el]).catch((err) => console.error("MathJax typeset failed:", err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+}
 
 function mulberry32(seed) {
   let s = seed >>> 0;
@@ -73,6 +86,7 @@ export default function WienerWidget({ params = {} }) {
   const dt = T / steps;
 
   const timeArr = useRef([]);
+  const mjWrapRef = useRef(null);
 
   useEffect(() => {
     timeArr.current = Array.from({ length: steps + 1 }, (_, i) => (i * T) / steps);
@@ -92,7 +106,7 @@ export default function WienerWidget({ params = {} }) {
 
   // Re-render tick
   const [, setRenderTick] = useState(0);
-  const forceRender = useCallback(() => setRenderTick((t) => t + 1), []);
+  const forceRender = useCallback(() => setRenderTick((x) => x + 1), []);
 
   const initSim = useCallback(() => {
     rngRef.current = makeRng(Number(pSeed) || 0);
@@ -110,7 +124,7 @@ export default function WienerWidget({ params = {} }) {
     forceRender();
   }, [initSim, forceRender]);
 
-  // Keep targetPaths synced when params.paths changes (but don't clobber user's slider while interacting too aggressively)
+  // Keep targetPaths synced when params.paths changes
   useEffect(() => {
     setTargetPaths(Math.min(Math.max(1, Number(pPaths) || 1), MAX_SIM_PATHS));
   }, [pPaths]);
@@ -221,6 +235,43 @@ export default function WienerWidget({ params = {} }) {
   const lastWT = n > 0 ? samples[n - 1] : 0;
   const z = T > 0 ? lastWT / Math.sqrt(T) : 0;
 
+  // LaTeX strings
+  const latexHeader = useMemo(() => {
+    return String.raw`$$
+dW_t \sim \mathcal{N}(0,\,dt), \qquad
+W_{t+dt}=W_t+\Delta W, \qquad
+W_T \sim \mathcal{N}(0,\,T)
+$$`;
+  }, []);
+
+  const latexStatsLeft = useMemo(() => {
+    return String.raw`
+\(
+\Delta t = ${dt.toFixed(4)},\;
+k = ${curK},\;
+t_k = ${curT.toFixed(3)},\;
+\Delta W_k = ${curDW.toFixed(4)},\;
+W(t_k) = ${curW.toFixed(4)},\;
+\sqrt{t_k} = ${theoryStdAtT.toFixed(3)}
+\)
+`;
+  }, [dt, curK, curT, curDW, curW, theoryStdAtT]);
+
+  const latexStatsRight = useMemo(() => {
+    return String.raw`
+\(
+n = ${n},\;
+\hat{\mu} = ${sampleMean.toFixed(4)},\;
+\widehat{\mathrm{Var}} = ${sampleVar.toFixed(4)},\;
+\mathrm{Var}[W_T] = T = ${T.toFixed(4)},\;
+z = \frac{W_T}{\sqrt{T}} = ${z.toFixed(3)}
+\)
+`;
+  }, [n, sampleMean, sampleVar, T, z]);
+
+  // Re-typeset when math changes (renderTick forces updates during animation)
+  useMathJax(mjWrapRef, [latexHeader, latexStatsLeft, latexStatsRight, showEnvelope, curK, n]);
+
   // Left plot traces (path builder)
   const leftTraces = [];
 
@@ -240,7 +291,7 @@ export default function WienerWidget({ params = {} }) {
 
   // Mean and envelope
   if (showEnvelope) {
-    const sqrtArr = tArr.map((t) => Math.sqrt(t));
+    const sqrtArr = tArr.map((tt) => Math.sqrt(tt)); // tt to avoid accidental 't' issues
     leftTraces.push({
       x: tArr,
       y: tArr.map(() => 0),
@@ -315,7 +366,7 @@ export default function WienerWidget({ params = {} }) {
     });
   }
 
-  // Always show theory PDF line (even at n=0 it will be empty arrays and harmless)
+  // Always show theory PDF line
   rightTraces.push({
     x: pdfXs,
     y: pdfYs,
@@ -338,9 +389,14 @@ export default function WienerWidget({ params = {} }) {
   };
 
   return (
-    <div className="widget">
+    <div className="widget" ref={mjWrapRef}>
       <div className="widgetHeader">
         <span className="widgetTitle">Wiener process — from increments to distribution</span>
+      </div>
+
+      <div className="panel" style={{ marginBottom: 12 }}>
+        <div className="panelTitle">Model</div>
+        <div style={{ padding: "6px 0" }}>{latexHeader}</div>
       </div>
 
       <div className="controls">
@@ -386,7 +442,7 @@ export default function WienerWidget({ params = {} }) {
               checked={showEnvelope}
               onChange={(e) => setShowEnvelope(e.target.checked)}
             />{" "}
-            Show ±√t envelope
+            Show \( \pm \<sqrt>t</sqrt> \) envelope
           </label>
         </div>
       </div>
@@ -394,13 +450,9 @@ export default function WienerWidget({ params = {} }) {
       <div className="grid2">
         <div className="panel">
           <div className="panelTitle">Path builder</div>
+
           <div className="metaRow">
-            <span className="statBox">dt = {dt.toFixed(4)}</span>
-            <span className="statBox">k = {curK}</span>
-            <span className="statBox">t = {curT.toFixed(3)}</span>
-            <span className="statBox">ΔW = {curDW.toFixed(4)}</span>
-            <span className="statBox">W(t) = {curW.toFixed(4)}</span>
-            <span className="statBox">√t = {theoryStdAtT.toFixed(3)}</span>
+            <span className="statBox">{latexStatsLeft}</span>
           </div>
 
           <div className="plotWrap" style={{ width: "100%", height: "320px" }}>
@@ -415,13 +467,10 @@ export default function WienerWidget({ params = {} }) {
         </div>
 
         <div className="panel">
-          <div className="panelTitle">Terminal distribution W_T</div>
+          <div className="panelTitle">Terminal distribution \( W_T \)</div>
+
           <div className="metaRow">
-            <span className="statBox">n = {n}</span>
-            <span className="statBox">mean = {sampleMean.toFixed(4)}</span>
-            <span className="statBox">var = {sampleVar.toFixed(4)}</span>
-            <span className="statBox">theory var = {T.toFixed(4)}</span>
-            <span className="statBox">z = W_T/√T = {z.toFixed(3)}</span>
+            <span className="statBox">{latexStatsRight}</span>
           </div>
 
           <div className="plotWrap" style={{ width: "100%", height: "320px" }}>
