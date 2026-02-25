@@ -33,18 +33,9 @@ However, this deterministic framework breaks down when confronted with the reali
     short: "Origins of GBM and Monte Carlo",
     widgetKey: "PlaceholderWidget",
     pinsByDefault: false,
-    description: `Physicists have used these same ideas for a while. Many Monte Carlo techniques were first
-developed in physics (particularly in the Manhattan Project) before being adopted by finance.
-The conceptual similarities between a particle undergoing molecular collisions and a stock
-price buffeted by market forces is remarkable.
+    description: `Physicists have used these same ideas for a while. Many Monte Carlo techniques were first developed in physics (particularly in the Manhattan Project) before being adopted by finance. The conceptual similarities between a particle undergoing molecular collisions and a stock price buffeted by market forces is remarkable.
 
-As early as c. 60 BC, humans had at least commented on the erratic behaviour of particles within a fluid. In his poem De Rerum
-Natura (‘On the Nature of Things’), Lucretius describes dust particles illuminated by a setting sun. This is likely the first recorded
-observation of the stochastic process that applies modern financial systems. Although what Lucretius saw was likely caused not
-by true Brownian motion but by air currents, he at least "perfectly describes and explains the Brownian movement by a wrong
-example". Crucially, Lucretius concludes that microscopic collisions cause general macroscopic motion. This forms the basis for
-stochastic analysis. Mathematically, Lucretius' observations mirror (at least in a logical sense) a discrete random walks, where the
-position $X_n$ after n steps is defined by
+As early as c. 60 BC, humans had at least commented on the erratic behaviour of particles within a fluid. In his poem De Rerum Natura (‘On the Nature of Things’), Lucretius describes dust particles illuminated by a setting sun. This is likely the first recorded observation of the stochastic process that applies modern financial systems. Although what Lucretius saw was likely caused not by true Brownian motion but by air currents, he at least "perfectly describes and explains the Brownian movement by a wrong example". Crucially, Lucretius concludes that microscopic collisions cause general macroscopic motion. This forms the basis for stochastic analysis. Mathematically, Lucretius' observations mirror (at least in a logical sense) a discrete random walks, where the position $X_n$ after n steps is defined by
 
 $X_n = \\sum_{i=1}^{n} Z_i$
 
