@@ -1,3 +1,4 @@
+// App.jsx
 import React from "react";
 import "./App.css";
 
@@ -9,7 +10,7 @@ import Workspace from "./components/Workspace.jsx";
 import { useAppStore } from "./state/store.jsx";
 
 export default function App() {
-  const { resetParams, writeToHash } = useAppStore();
+  const { resetParams, writeToHash, resetWorkspace } = useAppStore();
 
   return (
     <div className="app">
@@ -21,7 +22,7 @@ export default function App() {
           </div>
 
           <div className="actions">
-            <button className="btn secondary" type="button">
+            <button className="btn secondary" type="button" onClick={resetWorkspace}>
               Reset Workspace
             </button>
             <button className="btn secondary" type="button" onClick={resetParams}>

@@ -1,97 +1,111 @@
-import { useState, useCallback } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useAppStore } from "../state/store";
+import { workspaceCards } from "../data/workspaceCards";
+import { VISUALS } from "../visuals";
+import { dictionary } from "../data/dictionary";
 
-const PARAM_KEYS = ["S0", "mu", "sigma", "T", "steps", "paths", "seed"];
+function useMathJax(containerRef, deps = []) {
+  useEffect(() => {
+    const mj = window.MathJax;
+    const el = containerRef?.current;
+    if (!mj || !el) return;
+    mj.typesetClear?.([el]);
+    mj.typesetPromise?.([el]).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+}
 
-const SHELF_CARDS = [
-  { label: "Latest Wiener", hint: "Run the animation to populate" },
-  { label: "Latest GBM", hint: "Run the animation to populate" },
-  { label: "Latest Terminal Dist", hint: "Run the animation to populate" },
-];
-
-export default function Workspace() {
-  const { state, resetParams } = useAppStore();
-  const params = state?.params ?? {};
-
-  const [snapshot, setSnapshot] = useState(null);
-  const [comparing, setComparing] = useState(false);
-
-  const handleSnapshot = useCallback(() => {
-    setSnapshot({ ...params });
-  }, [params]);
-
-  const handleToggleCompare = useCallback(() => {
-    setComparing((v) => !v);
-  }, []);
+function VisualCard({ card, onJump }) {
+  const Visual = VISUALS?.[card.visualKey] ?? null;
 
   return (
-    <div className="workspace">
-      <div className="wsHeader">
-        <h2 className="wsTitle">Workspace</h2>
-        <p className="wsSub">Accumulating results &amp; comparison</p>
+    <div className="wsCard">
+      <div className="wsCardTop">
+        <div className="wsCardText">
+          <div className="wsCardTitle">{card.title}</div>
+          {card.takeaway ? <div className="wsCardTakeaway">{card.takeaway}</div> : null}
+          {card.equationTex ? <div className="wsCardEq">{card.equationTex}</div> : null}
+        </div>
+
+        <button
+          type="button"
+          className="btn btnSecondary wsJumpBtn"
+          onClick={() => onJump(card.jumpTo)}
+        >
+          Jump
+        </button>
       </div>
 
-      <section className="wsSection">
-        <h3 className="wsSectionTitle">Compare Runs</h3>
-        <div className="compareRow">
-          <button type="button" className="btn btnSecondary" onClick={handleToggleCompare}>
-            {comparing ? "Hide Delta" : "Show Delta"}
-          </button>
-          <button type="button" className="btn btnSecondary" onClick={handleSnapshot}>
-            Snapshot current params
-          </button>
+      <div className="wsCardVisual">
+        {Visual ? <Visual width={card.width ?? 320} height={card.height ?? 150} /> : null}
+      </div>
+    </div>
+  );
+}
+
+function DictionaryView({ items }) {
+  if (!Array.isArray(items) || items.length === 0) {
+    return <div className="wsDictEmpty">No dictionary entries yet.</div>;
+  }
+
+  return (
+    <div className="wsDict">
+      {items.map((it, idx) => (
+        <div className="wsDictItem" key={`${it.term}-${idx}`}>
+          <div className="wsDictTerm">{it.term}</div>
+          <div className="wsDictDef">{it.definition}</div>
+          {it.tex ? <div className="wsDictTex">{it.tex}</div> : null}
         </div>
+      ))}
+    </div>
+  );
+}
 
-        {comparing && (
-          <div className="deltaGrid">
-            {PARAM_KEYS.map((key) => {
-              const cur = params[key];
-              const snap = snapshot?.[key];
-              const diff =
-                snapshot !== null &&
-                typeof cur === "number" &&
-                typeof snap === "number"
-                  ? cur - snap
-                  : null;
+export default function Workspace() {
+  const { state, setActiveStep, setWorkspaceMode } = useAppStore();
+  const mode = state.workspaceMode ?? "visual";
 
-              return (
-                <div className="deltaItem" key={key}>
-                  <span className="deltaKey">{key}</span>
-                  <span className="deltaVal">now: {cur ?? "—"}</span>
-                  <span className="deltaVal">
-                    snap: {snapshot !== null ? (snap ?? "—") : "none"}
-                  </span>
-                  <span className="deltaVal">
-                    Δ: {diff !== null ? (diff >= 0 ? "+" : "") + diff.toPrecision(4) : "—"}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </section>
+  const mjRef = useRef(null);
 
-      <section className="wsSection">
-        <h3 className="wsSectionTitle">Quick Actions</h3>
-        <div className="wsActions">
-          <button type="button" className="btn" onClick={resetParams}>
-            Reset params
-          </button>
-        </div>
-      </section>
+  const cards = useMemo(() => (Array.isArray(workspaceCards) ? workspaceCards : []), []);
+  const dictItems = useMemo(() => (Array.isArray(dictionary) ? dictionary : []), []);
 
-      <section className="wsSection">
-        <h3 className="wsSectionTitle">Key Results Shelf</h3>
-        <div className="shelf">
-          {SHELF_CARDS.map((card) => (
-            <div className="shelfCard" key={card.label}>
-              <p className="shelfTitle">{card.label}</p>
-              <p className="muted">(no results yet)</p>
-              <p className="muted">{card.hint}</p>
-            </div>
+  useMathJax(mjRef, [mode, cards, dictItems, state.activeStepId]);
+
+  return (
+    <div className="workspace" ref={mjRef}>
+      <div className="wsHeader">
+        <h2 className="wsTitle">Workspace</h2>
+        <p className="wsSub">Storyboard visuals or dictionary</p>
+      </div>
+
+      <div className="wsModeRow">
+        <button
+          type="button"
+          className={`btn btnSecondary ${mode === "visual" ? "isActive" : ""}`}
+          onClick={() => setWorkspaceMode("visual")}
+        >
+          Visual
+        </button>
+
+        <button
+          type="button"
+          className={`btn btnSecondary ${mode === "dictionary" ? "isActive" : ""}`}
+          onClick={() => setWorkspaceMode("dictionary")}
+        >
+          Dictionary
+        </button>
+      </div>
+
+      {mode === "visual" ? (
+        <div className="wsStack">
+          {cards.map((card) => (
+            <VisualCard key={card.id} card={card} onJump={(stepId) => setActiveStep(stepId)} />
           ))}
         </div>
-      </section>
+      ) : (
+        <DictionaryView items={dictItems} />
+      )}
     </div>
   );
 }

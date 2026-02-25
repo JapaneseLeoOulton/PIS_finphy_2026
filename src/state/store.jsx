@@ -1,3 +1,4 @@
+// store.jsx
 import { createContext, useContext, useReducer, useCallback, useEffect } from "react";
 import { stepOrder, getStepById } from "../data/steps";
 
@@ -15,6 +16,7 @@ const initialState = {
   activeStepId: stepOrder[0],
   params: { ...DEFAULT_PARAMS },
   pinned: [],
+  workspaceMode: "visual", // "visual" | "dictionary"
 };
 
 function reducer(state, action) {
@@ -27,6 +29,10 @@ function reducer(state, action) {
       return { ...state, params: { ...state.params, ...action.partial } };
     case "RESET_PARAMS":
       return { ...state, params: { ...DEFAULT_PARAMS } };
+
+    case "SET_WORKSPACE_MODE":
+      return { ...state, workspaceMode: action.mode };
+
     case "PIN_STEP": {
       const already = state.pinned.some((p) => p.stepId === action.stepId);
       if (already) return state;
@@ -41,6 +47,10 @@ function reducer(state, action) {
       return { ...state, pinned: state.pinned.filter((p) => p.stepId !== action.stepId) };
     case "CLEAR_PINNED":
       return { ...state, pinned: [] };
+
+    case "RESET_WORKSPACE":
+      return { ...state, pinned: [], workspaceMode: "visual" };
+
     case "HYDRATE":
       return { ...state, ...action.slice };
     default:
@@ -62,6 +72,9 @@ export function AppStoreProvider({ children }) {
       const slice = {};
       if (parsed.activeStepId) slice.activeStepId = parsed.activeStepId;
       if (parsed.params) slice.params = { ...DEFAULT_PARAMS, ...parsed.params };
+      if (parsed.workspaceMode === "visual" || parsed.workspaceMode === "dictionary") {
+        slice.workspaceMode = parsed.workspaceMode;
+      }
       if (Array.isArray(parsed.pinnedStepIds)) {
         slice.pinned = parsed.pinnedStepIds.reduce((acc, id) => {
           const step = getStepById(id);
@@ -81,18 +94,23 @@ export function AppStoreProvider({ children }) {
       activeStepId: state.activeStepId,
       params: state.params,
       pinnedStepIds: state.pinned.map((p) => p.stepId),
+      workspaceMode: state.workspaceMode,
     };
     window.location.hash = encodeURIComponent(JSON.stringify(payload));
   }, [state]);
 
   useEffect(() => {
     hydrateFromHash();
-  }, []);
+  }, [hydrateFromHash]);
 
   const setActiveStep = useCallback((stepId) => dispatch({ type: "SET_ACTIVE_STEP", stepId }), []);
   const setParam = useCallback((key, value) => dispatch({ type: "SET_PARAM", key, value }), []);
   const setParams = useCallback((partial) => dispatch({ type: "SET_PARAMS", partial }), []);
   const resetParams = useCallback(() => dispatch({ type: "RESET_PARAMS" }), []);
+
+  const setWorkspaceMode = useCallback((mode) => dispatch({ type: "SET_WORKSPACE_MODE", mode }), []);
+  const resetWorkspace = useCallback(() => dispatch({ type: "RESET_WORKSPACE" }), []);
+
   const pinStep = useCallback((stepId) => dispatch({ type: "PIN_STEP", stepId }), []);
   const unpinStep = useCallback((stepId) => dispatch({ type: "UNPIN_STEP", stepId }), []);
   const clearPinned = useCallback(() => dispatch({ type: "CLEAR_PINNED" }), []);
@@ -106,6 +124,8 @@ export function AppStoreProvider({ children }) {
     pinStep,
     unpinStep,
     clearPinned,
+    setWorkspaceMode,
+    resetWorkspace,
     hydrateFromHash,
     writeToHash,
   };
@@ -118,3 +138,4 @@ export function useAppStore() {
   if (!ctx) throw new Error("useAppStore must be used within AppStoreProvider");
   return ctx;
 }
+
