@@ -3,6 +3,7 @@ import { useAppStore } from "../state/store";
 import { getStepById, steps } from "../data/steps";
 import RealWienerWidget from "../widgets/WienerWidget.jsx";
 import GBMSinglePathWidget from "../widgets/GBMSinglePathWidget.jsx";
+import DecisionTheoryWidget from "../widgets/DecisionTheoryWidget.jsx";
 
 function PlaceholderWidget({ params }) {
   return (
@@ -63,20 +64,6 @@ function TerminalDistributionWidget({ params }) {
   );
 }
 
-function DecisionTheoryWidget({ params }) {
-  return (
-    <div className="pill">
-      <h3>Decision Theory</h3>
-      <ul>
-        <li>Choose an action by minimizing expected loss.</li>
-        <li>{"\\(a^* = \\arg\\min_a \\mathbb{E}[L(a,X)]\\)"}</li>
-        <li>
-          μ = {params?.mu ?? "—"}, T = {params?.T ?? "—"}
-        </li>
-      </ul>
-    </div>
-  );
-}
 
 const WIDGET_REGISTRY = {
   PlaceholderWidget,
@@ -104,8 +91,12 @@ function FlowBlock({ block, params }) {
 
   if (block.type === "p") return <p style={{ whiteSpace: "pre-wrap" }}>{block.text}</p>;
 
-  if (block.type === "math") return <div className="math">{block.tex}</div>;
-
+if (block.type === "math")
+  return (
+    <div className="math" style={{ whiteSpace: "pre-wrap" }}>
+      {block.text}
+    </div>
+  );
   if (block.type === "img") {
     return (
       <img
