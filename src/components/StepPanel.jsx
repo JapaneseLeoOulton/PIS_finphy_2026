@@ -4,6 +4,7 @@ import { getStepById, steps } from "../data/steps";
 import RealWienerWidget from "../widgets/WienerWidget.jsx";
 import GBMSinglePathWidget from "../widgets/GBMSinglePathWidget.jsx";
 import DecisionTheoryWidget from "../widgets/DecisionTheoryWidget.jsx";
+import TerminalDistributionWidget from "../widgets/TerminalDistributionWidget";
 
 function PlaceholderWidget({ params }) {
   return (
@@ -49,20 +50,7 @@ function GBMManyPathsWidget({ params }) {
   );
 }
 
-function TerminalDistributionWidget({ params }) {
-  return (
-    <div className="pill">
-      <h3>Terminal Distribution</h3>
-      <ul>
-        <li>Histogram of simulated terminal prices {"\\(S(T)\\)"}.</li>
-        <li>Compare to theoretical lognormal shape.</li>
-        <li>
-          {"\\(S_0\\)"} = {params?.S0 ?? "—"}, σ = {params?.sigma ?? "—"}
-        </li>
-      </ul>
-    </div>
-  );
-}
+
 
 
 const WIDGET_REGISTRY = {

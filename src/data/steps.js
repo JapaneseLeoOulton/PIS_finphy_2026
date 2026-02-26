@@ -338,18 +338,15 @@ where D is the diffusion coefficient, $\\sigma$ is the volatility and $x$ is the
 
 In turbulent markets, the volatility $\\sigma$ is higher. This in turn means that the diffusion coefficient is higher, reflecting a wider, faster spread in potential price outcomes. Turbulent markets tend to occur during periods of high uncertainty, such as during financial crashes, during extreme political tensions or other international disasters. For example, one of the highest volatilities ever recorded was in March 2020 during the COVID-19 pandemic, where the Cboe Volatility Index (VIX) reached a closing high of 82.69.
 
-Low volatilities represent stable, growing markets. Price fluctuations of stocks are smaller and more predictable, and thus there is a slower spread of potential price outcomes of stocks. A VIX value below 12 generally indicates low volatility.
+Low volatilities represent stable, growing markets. Price fluctuations of stocks are smaller and more predictable, and thus there is a slower spread of potential price outcomes of stocks. A VIX value below 12 generally indicates low volatility.`,
 
-The above figure demonstrates the difference in price paths that high vs low volatility stocks. It can clearly be seen that the more volatile stock shows more discontinuous jumps in its value compared to the lower volatility stock.
+content: [
+  
+  {
+    type: "p",
+    text: `A stochastic differential equation combines two fundamentally different components, a deterministic part which represents what would happen on average, and a stochastic part capturing unpredictable fluctuations. The general form of an SDE can be written as:`,
+  },
 
-In real market situations, the volatility is not constant. Although the future price of a stock cannot be predicted deterministically, variations in volatility combined with historical data can be used to gauge how the market will move.
-
-The above figure demonstrates how a typical volatility cycle takes place. Before the volatility spike, the volatility gradually increases up until the peak, and then decreases back down to around the initial volatility value.`,
-    content: [
-      {
-        type: "p",
-        text: `A stochastic differential equation combines two fundamentally different components, a deterministic part which represents what would happen on average, and a stochastic part capturing unpredictable fluctuations. The general form of an SDE can be written as:`,
-      },
       {
         type: "math",
         text: `$dX = a(X,t)dt + b(X,t)dW$`,
@@ -438,6 +435,12 @@ The drift parameter $\\mu$ dictates that general trend of an asset, which is sep
         type: "p",
         text: `Low volatilities represent stable, growing markets. Price fluctuations of stocks are smaller and more predictable, and thus there is a slower spread of potential price outcomes of stocks. A VIX value below 12 generally indicates low volatility.`,
       },
+        {
+    type: "img",
+    src: `${import.meta.env.BASE_URL}images/highvslowvol.png`,
+    alt: "High vs low volatility price paths",
+    caption: "High vs low volatility: more volatile paths fluctuate more strongly.",
+  },
       {
         type: "p",
         text: `The above figure demonstrates the difference in price paths that high vs low volatility stocks. It can clearly be seen that the more volatile stock shows more discontinuous jumps in its value compared to the lower volatility stock.`,
@@ -446,6 +449,12 @@ The drift parameter $\\mu$ dictates that general trend of an asset, which is sep
         type: "p",
         text: `In real market situations, the volatility is not constant. Although the future price of a stock cannot be predicted deterministically, variations in volatility combined with historical data can be used to gauge how the market will move.`,
       },
+        {
+    type: "img",
+    src: `${import.meta.env.BASE_URL}images/volcycle.png`,
+    alt: "Volatility cycle over time",
+    caption: "A typical volatility cycle: rise → spike → decay back toward baseline.",
+  },
       {
         type: "p",
         text: `The above figure demonstrates how a typical volatility cycle takes place. Before the volatility spike, the volatility gradually increases up until the peak, and then decreases back down to around the initial volatility value.`,
@@ -550,6 +559,7 @@ until we reach the final time $T$. The result is a single simulated path, with o
 possible trajectory that the stock price might follow given the model parameters.`,
       },
       { type: "widget", key: "GBMSinglePathWidget" },
+      { type: "widget", key: "TerminalDistributionWidget" },
     ],
   },
 
@@ -683,27 +693,52 @@ In contrast, short-term fluctuations in market prices are expressed through the 
 
 Furthermore, Fukushima also had long term impacts on Japan's economy. Immediately after the disaster, all nuclear reactors were shut down, signifying a big shift away from nuclear energy and placing more reliance on imported fossil fuels. This lead to higher long-run energy costs, reduced energy security and an increased trade deficit, resulting in lower expected productivity growth and reduced competitiveness of energy-intensive industries. Applying these factors to our model would see a lower drift parameter. Additionally, permanent evacuation of certain regions, as well as general loss of local economic activity, would have added to the sustained downward pressure on the economy and contributed further to the lowering of the drift term in our model.`,
     content: [
-      {
-        type: "p",
-        text: `Although the GBM model provides the foundation for the Black-Scholes option pricing formula, it has well-documented shortcomings. GBM assumes continuous paths with no sudden jumps, whereas real markets exhibit fat tails and sharp discontinuities. The 1987 Black Monday crash, the 2008 financial crisis, and the 2020 COVID-19 crash all involved movements that GBM would assign probabilities of less than one in several million years.`,
-      },
-      {
-        type: "p",
-        text: `The main purpose of our model was not to provide precise forecasts of future asset prices, but rather to offer a simplified representation of how financial prices evolve under uncertainty, such as mass global events.`,
-      },
-      {
-        type: "p",
-        text: `Our model captures two fundamental features observed in real markets: long-term growth trends and short-term randomness. A drift term is used to represent the change or expected rate of growth over time and can be associated with factors such as economic expansion, inflation, productivity gain and corporate profitability. These factors don't determine movement of prices at every moment but instead influence the overall direction of prices when viewed over long time intervals.`,
-      },
-      {
-        type: "p",
-        text: `In contrast, short-term fluctuations in market prices are expressed through the 'shock term', which is influenced by the volatility value. This allows for day-to-day price change to be observed, something that is affected by news releases, trading behaviour or, in our case, global events. Over short time periods, this term can dominate the drift term, causing prices to move in unexpected directions, even when the long-term growth rate is a constant positive. A historical example of this can be seen through the 2011 Tohoku earthquake and Fukushima incident in Japan. This tragic event caused sudden uncertainty over supply chains, energy shortages and corporate losses; financial markets reacted with sharp, erratic price movements. In our model, such an event would result in an immediate increase on volatility, causing the shock term to grow larger and therefore simulated price paths would spread out much more over short intervals - expressing the immediate market panic.`,
-      },
-      {
-        type: "p",
-        text: `Furthermore, Fukushima also had long term impacts on Japan's economy. Immediately after the disaster, all nuclear reactors were shut down, signifying a big shift away from nuclear energy and placing more reliance on imported fossil fuels. This lead to higher long-run energy costs, reduced energy security and an increased trade deficit, resulting in lower expected productivity growth and reduced competitiveness of energy-intensive industries. Applying these factors to our model would see a lower drift parameter. Additionally, permanent evacuation of certain regions, as well as general loss of local economic activity, would have added to the sustained downward pressure on the economy and contributed further to the lowering of the drift term in our model.`,
-      },
-      { type: "widget", key: "DecisionTheoryWidget" },
+  {
+    type: "p",
+    text: `Although the GBM model provides the foundation for the Black-Scholes option pricing formula, it has well-documented shortcomings. GBM assumes continuous paths with no sudden jumps, whereas real markets exhibit fat tails and sharp discontinuities. The 1987 Black Monday crash, the 2008 financial crisis, and the 2020 COVID-19 crash all involved movements that a Gaussian/GBM framework would treat as astronomically unlikely.`,
+  },
+  {
+    type: "p",
+    text: `The main purpose of our model was not to provide precise forecasts of future asset prices, but rather to offer a simplified representation of how financial prices evolve under uncertainty, such as mass global events.`,
+  },
+  {
+    type: "p",
+    text: `Our model captures two fundamental features observed in real markets: long-term growth trends and short-term randomness. A drift term is used to represent the change or expected rate of growth over time and can be associated with factors such as economic expansion, inflation, productivity gain and corporate profitability. These factors don't determine movement of prices at every moment but instead influence the overall direction of prices when viewed over long time intervals.`,
+  },
+  {
+    type: "p",
+    text: `In contrast, short-term fluctuations in market prices are expressed through the 'shock term', which is influenced by the volatility value. This allows for day-to-day price change to be observed, something that is affected by news releases, trading behaviour or, in our case, global events. Over short time periods, this term can dominate the drift term, causing prices to move in unexpected directions, even when the long-term growth rate is a constant positive. A historical example of this can be seen through the 2011 Tohoku earthquake and Fukushima incident in Japan. This tragic event caused sudden uncertainty over supply chains, energy shortages and corporate losses; financial markets reacted with sharp, erratic price movements. In our model, such an event would result in an immediate increase in volatility, causing the shock term to grow larger and therefore simulated price paths would spread out much more over short intervals - expressing the immediate market panic.`,
+  },
+  {
+    type: "p",
+    text: `Furthermore, Fukushima also had long term impacts on Japan's economy. Immediately after the disaster, all nuclear reactors were shut down, signifying a big shift away from nuclear energy and placing more reliance on imported fossil fuels. This lead to higher long-run energy costs, reduced energy security and an increased trade deficit, resulting in lower expected productivity growth and reduced competitiveness of energy-intensive industries. Applying these factors to our model would see a lower drift parameter. Additionally, permanent evacuation of certain regions, as well as general loss of local economic activity, would have added to the sustained downward pressure on the economy and contributed further to the lowering of the drift term in our model.`,
+  },
+
+  { type: "h3", text: "Extension: modelling rare shocks with Poisson jumps" },
+
+  {
+    type: "p",
+    text: `A natural extension of GBM is to allow the price to occasionally undergo sudden, discontinuous moves. This is the idea behind Poisson jump (jump–diffusion) models, where the price evolves like GBM most of the time, but experiences discrete jumps at random times.`,
+  },
+  {
+    type: "p",
+    text: `In its simplest form, the dynamics can be written as \\(\\frac{dS_t}{S_{t^-}}=\\mu\\,dt+\\sigma\\,dW_t+(J-1)\\,dN_t\\). The first two terms are the GBM ingredients: a drift \\(\\mu\\) for long-run growth and a Brownian shock term \\(\\sigma dW_t\\) for short-run randomness. The new ingredient is the jump term \\((J-1)dN_t\\).`,
+  },
+  {
+    type: "p",
+    text: `Here \\(N_t\\) is a Poisson process that counts the number of jump events up to time \\(t\\), with \\(N(t)\\sim\\text{Poisson}(\\lambda t)\\) and \\(\\mathbb{E}[N(t)]=\\lambda t\\). The parameter \\(\\lambda\\) controls how frequently major shocks occur on average.`,
+  },
+  {
+    type: "p",
+    text: `This framework also has a clean “waiting time” interpretation. If \\(T_1\\) is the time of the first jump, then \\(\\mathbb{P}(T_1>t)=\\mathbb{P}(N(t)=0)=e^{-\\lambda t}\\). In words: the probability that no shock has occurred by time \\(t\\) decays exponentially, closely mirroring the way radioactive decay events are modelled in physics.`,
+  },
+  {
+    type: "p",
+    text: `Finally, we need a model for the direction and magnitude of a jump. In finance, jumps are usually taken to be multiplicative so prices remain positive: \\(S_t=S_{t^-}J\\). A common choice is \\(J=e^Y\\), where \\(Y\\) (often taken as Normal) controls typical jump direction and dispersion. If \\(\\mathbb{E}[Y]<0\\), jumps tend to be downward on average (crash-like), while larger variance in \\(Y\\) allows for occasional extreme outcomes.`,
+  },
+
+     
+
     ],
   },
 ];
