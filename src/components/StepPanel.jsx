@@ -50,9 +50,6 @@ function GBMManyPathsWidget({ params }) {
   );
 }
 
-
-
-
 const WIDGET_REGISTRY = {
   PlaceholderWidget,
   WienerWidget: RealWienerWidget,
@@ -74,17 +71,36 @@ function useMathJax(containerRef, deps = []) {
   }, deps);
 }
 
+// small helper so newlines become <br/> when we use innerHTML
+function escapeAndLinkifyPreserveNewlines(htmlString) {
+  // We assume you control step content (steps.js), so we only convert newlines to <br/>
+  // and keep any <a> tags you included. If you want strict sanitization later, tell me.
+  return (htmlString ?? "").replace(/\n/g, "<br/>");
+}
+
 function FlowBlock({ block, params }) {
   if (!block) return null;
 
-  if (block.type === "p") return <p style={{ whiteSpace: "pre-wrap" }}>{block.text}</p>;
+  if (block.type === "p") {
+    // Render HTML (so <a> links work), and preserve newlines.
+    const html = escapeAndLinkifyPreserveNewlines(block.text);
 
-if (block.type === "math")
-  return (
-    <div className="math" style={{ whiteSpace: "pre-wrap" }}>
-      {block.text}
-    </div>
-  );
+    return (
+      <p
+        style={{ whiteSpace: "normal" }}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+
+  if (block.type === "math") {
+    return (
+      <div className="math" style={{ whiteSpace: "pre-wrap" }}>
+        {block.text}
+      </div>
+    );
+  }
+
   if (block.type === "img") {
     return (
       <img
@@ -112,7 +128,9 @@ if (block.type === "math")
     );
   }
 
-  if (block.type === "divider") return <hr style={{ opacity: 0.25, margin: "14px 0" }} />;
+  if (block.type === "divider") {
+    return <hr style={{ opacity: 0.25, margin: "14px 0" }} />;
+  }
 
   return null;
 }

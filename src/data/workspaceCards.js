@@ -6,7 +6,7 @@ export const workspaceCards = [
     equationTex: "",
     visualKey: "miniBrown",
     jumpTo: "brownian",
-    width: 320,
+    width: 300,
     height: 150,
   },
 
@@ -18,7 +18,7 @@ export const workspaceCards = [
     equationTex: String.raw`\( \Delta W \sim \mathcal{N}(0,\Delta t) \)`,
     visualKey: "miniWiener",
     jumpTo: "brownian",
-    width: 320,
+    width: 300,
     height: 150,
   },
   {
@@ -28,7 +28,7 @@ export const workspaceCards = [
     equationTex: String.raw`\( dX = a(X,t)\,dt + b(X,t)\,dW \)`,
     visualKey: "miniSDEs",
     jumpTo: "sde",
-    width: 320,
+    width: 300,
     height: 150,
   },
   {
@@ -38,17 +38,8 @@ export const workspaceCards = [
     equationTex: String.raw`\( W_T \sim \mathcal{N}(0,T) \)`,
     visualKey: "miniTerminal",
     jumpTo: "outcomes",
-    width: 320,
+    width: 300,
     height: 150,
   },
-  {
-    id: "jumps",
-    title: "Poisson jumps",
-    takeaway: "Rare shocks create discontinuities and fat tails.",
-    equationTex: String.raw`\( dX = \cdots + J\,dN_t \)`,
-    visualKey: "miniJump",
-    jumpTo: "limits",
-    width: 320,
-    height: 150,
-  },
+
 ];

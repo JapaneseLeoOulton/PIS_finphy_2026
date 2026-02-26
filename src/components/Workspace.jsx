@@ -52,7 +52,7 @@ function DictionaryView({ items }) {
     <div className="wsDict">
       {items.map((it, idx) => (
         <div className="wsDictItem" key={`${it.term}-${idx}`}>
-          <div className="wsDictTerm">{it.term}</div>
+          <div className="wsDictTerm"><strong>{it.term}</strong></div>
           <div className="wsDictDef">{it.definition}</div>
           {it.tex ? <div className="wsDictTex">{it.tex}</div> : null}
         </div>

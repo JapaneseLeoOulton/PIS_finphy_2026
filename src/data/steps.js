@@ -3,7 +3,7 @@ export const steps = [
     id: "intro",
     title: "Intro & Intuition",
     short: "Why model price randomness?",
-    widgetKey: "PlaceholderWidget",
+    
     pinsByDefault: false,
     description: `Geometric Brownian Motion (GBM) is a mathematical framework that is used for modelling the price of stock prices. Originally derived from observations in nature, GBM uses a physical understanding of randomised motion to account for fluctuations in price. This project explores how the discovery of Brownian motion has led to our current usable model for financial modelling.
 
@@ -29,7 +29,7 @@ However, this deterministic framework breaks down when confronted with the reali
         type: "p",
         text: `However, this deterministic framework breaks down when confronted with the reality of financial markets. Markets are not clockwork mechanisms. They are influenced by an endless stream of unpredictable factors: economic news releases, geopolitical events, shifts in investor sentiment, regulatory changes, and countless individual trading decisions. Each of these introduces its own small element of randomness that cannot be captured by deterministic equations alone. To model these systems realistically, we need to use a mathematical tool that can incorporate both the underlying trends and the inherent uncertainty, and this is where stochastic differential equations enter the picture.`,
       },
-      { type: "widget", key: "PlaceholderWidget" },
+      
     ],
   },
 
@@ -37,7 +37,7 @@ However, this deterministic framework breaks down when confronted with the reali
     id: "history",
     title: "Background & History",
     short: "Origins of GBM and Monte Carlo",
-    widgetKey: "PlaceholderWidget",
+    
     pinsByDefault: false,
     description: `Physicists have used these same ideas for a while. Many Monte Carlo techniques were first developed in physics (particularly in the Manhattan Project) before being adopted by finance. The conceptual similarities between a particle undergoing molecular collisions and a stock price buffeted by market forces is remarkable.
 
@@ -223,7 +223,7 @@ become negative. Therefore, the mathematical framework was adapted to create Geo
 which ensures price changes are proportional to the current price level.`,
       },
 
-      { type: "widget", key: "PlaceholderWidget" },
+     
     ],
   },
 
@@ -297,7 +297,7 @@ The basic Wiener process can take negative values, which made it unsuitable for 
     id: "sde",
     title: "SDE formulation",
     short: "Drift + diffusion",
-    widgetKey: "PlaceholderWidget",
+
     pinsByDefault: false,
     description: `A stochastic differential equation combines two fundamentally different components, a deterministic part which represents what would happen on average, and a stochastic part capturing unpredictable fluctuations. The general form of an SDE can be written as:
 $dX = a(X,t)dt + b(X,t)dW$
@@ -460,7 +460,7 @@ The drift parameter $\\mu$ dictates that general trend of an asset, which is sep
         text: `The above figure demonstrates how a typical volatility cycle takes place. Before the volatility spike, the volatility gradually increases up until the peak, and then decreases back down to around the initial volatility value.`,
       },
 
-      { type: "widget", key: "PlaceholderWidget" },
+      
     ],
   },
 
@@ -571,6 +571,8 @@ possible trajectory that the stock price might follow given the model parameters
   pinsByDefault: true,
   description: ``,
   content: [
+    { type: "widget", key: "TerminalDistributionWidget" },
+    
     {
       type: "p",
       text: `A single simulated path doesn't tell us much. The true power of stochastic simulation comes from generating many paths and analysing their statistical properties via Monte Carlo simulation.`,
@@ -737,10 +739,55 @@ Furthermore, Fukushima also had long term impacts on Japan's economy. Immediatel
     text: `Finally, we need a model for the direction and magnitude of a jump. In finance, jumps are usually taken to be multiplicative so prices remain positive: \\(S_t=S_{t^-}J\\). A common choice is \\(J=e^Y\\), where \\(Y\\) (often taken as Normal) controls typical jump direction and dispersion. If \\(\\mathbb{E}[Y]<0\\), jumps tend to be downward on average (crash-like), while larger variance in \\(Y\\) allows for occasional extreme outcomes.`,
   },
 
-     
-
     ],
+   
   },
+
+  {
+     id: "furthre reading",
+  title: "Furthre reading",
+  short: "links to useful sites",
+  pinsByDefault: true,
+  description: ``,
+  content: [
+  {type:`p`, text: `By the time you have reached here, hopefully you have a good understanding of how physics is used in finance now, or at least the flow of the process. However, this is just the tip of the iceberg. There are so many things that we haven't discussed on this website, such as more sophisticated models, how to actually pick the value of parameters, etc. This field of physics is very hard and thus well paid in society! So, if any of the readers are interested in further resources, here are some good starting points.`},
+  // Option A: type "p" with an HTML <a> tag inside the text string
+
+{
+  type: "p",
+  text: `Geometric Brownian Motion (ScienceDirect Topic): <a href="https://www.sciencedirect.com/topics/mathematics/geometric-brownian-motion" target="_blank" rel="noreferrer">overview + key definitions</a>.`,
+},
+{
+  type: "p",
+  text: `Fractional Brownian Motion (ScienceDirect Topic): <a href="https://www.sciencedirect.com/topics/mathematics/fractional-brownian-motion" target="_blank" rel="noreferrer">overview of fBm + properties</a>.`,
+},
+{
+  type: "p",
+  text: `Brownian Motion lecture notes (UChicago – Lalley): <a href="https://galton.uchicago.edu/~lalley/Courses/313/BrownianMotionCurrent.pdf" target="_blank" rel="noreferrer">rigorous notes on Brownian motion</a>.`,
+},
+{
+  type: "p",
+  text: `Louis Bachelier biography (St Andrews): <a href="https://mathshistory.st-andrews.ac.uk/Biographies/Bachelier/" target="_blank" rel="noreferrer">history of early mathematical finance</a>.`,
+},
+{
+  type: "p",
+  text: `MIT OCW finance-math notes (18.S096): <a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/a671d0d2abe626c371fd5850ad670397_MIT18_S096F13_lecnote21.pdf" target="_blank" rel="noreferrer">course note on stochastic/finance topics</a>.`,
+},
+{
+  type: "p",
+  text: `IOPscience book chapter (EPUB): <a href="https://iopscience.iop.org/book/edit/978-0-7503-3559-1/chapter/bk978-0-7503-3559-1ch8.epub" target="_blank" rel="noreferrer">book chapter on drift diffusion models</a>.`,
+},
+
+{
+  type: "p",
+  text: `Market reaction to Japan earthquake (The Guardian, 2011): <a href="https://www.theguardian.com/business/2011/mar/14/japan-earthquake-stock-markets" target="_blank" rel="noreferrer">news context on shock events</a>.`,
+},
+{
+  type: "p",
+  text: `GBM tutorial (QuantStart): <a href="https://www.quantstart.com/articles/Geometric-Brownian-Motion/" target="_blank" rel="noreferrer">practical explanation + formulas</a>.`,
+}
+  ]
+  }
 ];
 
 export const stepOrder = steps.map((s) => s.id);

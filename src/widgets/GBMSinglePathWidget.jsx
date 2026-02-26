@@ -279,7 +279,7 @@ export default function GBMSinglePathWidget({ params = {} }) {
   return (
     <div className="widget">
       <div className="widgetHeader">
-        <span className="widgetTitle">GBM — single path (built from increments)</span>
+        <span className="widgetTitle">GBM — single path</span>
       </div>
 
       <div className="controls">

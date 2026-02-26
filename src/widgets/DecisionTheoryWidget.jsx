@@ -1,17 +1,8 @@
-// src/widgets/TerminalDistributionWidget.jsx
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Plot from "react-plotly.js";
 
-/**
- * TerminalDistributionWidget
- * - Simulate terminal prices S(T) under GBM (analytic terminal form)
- * - Show terminal distribution (histogram) + decision line "a"
- * - Show estimated expected loss curve E[L(a,S(T))] vs a
- * - Loss choices: squared, absolute, quantile (pinball)
- * - Animate dot/line moving to minimizer a*
- */
 
-// ---------- RNG helpers ----------
 function mulberry32(seed) {
   let s = seed >>> 0;
   return () => {
@@ -24,7 +15,7 @@ function mulberry32(seed) {
 }
 
 function boxMuller(rng) {
-  // standard normal
+ 
   const u1 = rng();
   const u2 = rng();
   const r = Math.sqrt(-2 * Math.log(u1 + 1e-300));
@@ -32,13 +23,13 @@ function boxMuller(rng) {
   return r * Math.cos(theta);
 }
 
-// ---------- math helpers ----------
+
 function clamp(x, lo, hi) {
   return Math.max(lo, Math.min(hi, x));
 }
 
 function quantile(sortedArr, q) {
-  // q in [0,1], sortedArr ascending
+  
   const n = sortedArr.length;
   if (n === 0) return NaN;
   const pos = (n - 1) * q;
@@ -55,7 +46,7 @@ function mean(arr) {
 }
 
 function expectedLoss(samples, a, mode, tau) {
-  // samples: array of S(T)
+  
   const n = samples.length;
   if (n === 0) return NaN;
 
@@ -73,11 +64,7 @@ function expectedLoss(samples, a, mode, tau) {
     return acc / n;
   }
 
-  // pinball / quantile loss:
-  // ρ_tau(u) = u*(tau - I[u<0]) where u = S - a  (or a - S; be consistent)
-  // We'll use u = S - a:
-  // if S >= a => u>=0 => tau*u
-  // if S < a  => u<0  => (tau-1)*u = (1-tau)*(a-S)
+  
   for (let i = 0; i < n; i++) {
     const u = samples[i] - a;
     acc += u >= 0 ? tau * u : (tau - 1) * u;
@@ -85,7 +72,7 @@ function expectedLoss(samples, a, mode, tau) {
   return acc / n;
 }
 
-// animate a -> target
+
 function animateTo(setter, from, to, ms = 450) {
   const start = performance.now();
   const dur = Math.max(50, ms);
@@ -101,7 +88,7 @@ function animateTo(setter, from, to, ms = 450) {
   requestAnimationFrame(tick);
 }
 
-// ---------- component ----------
+
 export default function TerminalDistributionWidget({ params }) {
   const S0 = Number(params?.S0 ?? 100);
   const mu = Number(params?.mu ?? 0.08);

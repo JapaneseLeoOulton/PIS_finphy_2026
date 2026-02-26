@@ -252,7 +252,7 @@ export default function TerminalDistributionWidget({ params = {} }) {
   return (
     <div className="widget">
       <div className="widgetHeader" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span className="widgetTitle">Terminal Distribution (animated)</span>
+        <span className="widgetTitle">Terminal Distribution  visualisation </span>
         <div style={{ display: "flex", gap: 8 }}>
           <button type="button" onClick={() => setPlaying((p) => !p)}>
             {playing ? "Pause" : "Play"}

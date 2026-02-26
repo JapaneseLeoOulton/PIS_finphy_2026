@@ -17,8 +17,8 @@ export default function App() {
       <header className="header">
         <div className="headerInner">
           <div className="titleBlock">
-            <h1 className="title">Physics in Finance — GBM Teaching App</h1>
-            <p className="subtitle">Flowchart-driven learning with accumulating visuals</p>
+            <h1 className="title">Introduction to Physics in Finance: GBM & Randomness</h1>
+            
           </div>
 
           <div className="actions">
@@ -28,9 +28,7 @@ export default function App() {
             <button className="btn secondary" type="button" onClick={resetParams}>
               Reset Params
             </button>
-            <button className="btn" type="button" onClick={writeToHash}>
-              Share Settings
-            </button>
+            
           </div>
         </div>
       </header>
