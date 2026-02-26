@@ -14,6 +14,10 @@ In physics and finance, we understand many quantities evolve over time, from par
 However, this deterministic framework breaks down when confronted with the reality of financial markets. Markets are not clockwork mechanisms. They are influenced by an endless stream of unpredictable factors: economic news releases, geopolitical events, shifts in investor sentiment, regulatory changes, and countless individual trading decisions. Each of these introduces its own small element of randomness that cannot be captured by deterministic equations alone. To model these systems realistically, we need to use a mathematical tool that can incorporate both the underlying trends and the inherent uncertainty, and this is where stochastic differential equations enter the picture.`,
     content: [
       {
+        type:"p",
+        text: `Navigation: On the left-hand side, the pipeline shows the recommended learning order. Under it are the universal variables (shared across most simulations), which you can adjust at any time. The middle panel contains the main content for each step. On the right-hand side, the Workspace provides visual summaries (use “Jump” to revisit a topic) and a dictionary explaining key financial-physics terminology. Also, it is reccomended to use the light mode in your PC.`
+      },
+      {
         type: "p",
         text: `Geometric Brownian Motion (GBM) is a mathematical framework that is used for modelling the price of stock prices. Originally derived from observations in nature, GBM uses a physical understanding of randomised motion to account for fluctuations in price. This project explores how the discovery of Brownian motion has led to our current usable model for financial modelling.`,
       },
@@ -86,7 +90,7 @@ In the context of finance, D represents the diffusion coefficient, which is rela
 
 Whilst Bachelier remained unknown compared to Einstein and Wiener during and after his, nowadays he is recognised internationally as the father of financial mathematics.
 
-However, Brownian motion showed no uses to the financial industry until mathematician Norbert Wiener
+Brownian motion showed no uses to the financial industry until mathematician Norbert Wiener
 defined the Wiener process in 1918. Wiener defined a way to calculate the probability of a particle
 taking a specific set of paths - this is known as the Wiener process.
 
@@ -233,7 +237,7 @@ which ensures price changes are proportional to the current price level.`,
     short: "Wiener process foundations",
     widgetKey: "WienerWidget",
     pinsByDefault: true,
-    description: `However, Brownian motion showed no uses to the financial industry until mathematician Norbert Wiener defined the Wiener process in 1918. Wiener defined a way to calculate the probability of a particle taking a specific set of paths - this is known as the Wiener process.
+    description: `Brownian motion showed no uses to the financial industry until mathematician Norbert Wiener defined the Wiener process in 1918. Wiener defined a way to calculate the probability of a particle taking a specific set of paths - this is known as the Wiener process.
 
 Although physically Brownian motion represents the motion of a particle, the Wiener process generalises the idea of a particle to just represent some variable, $W$. This variable can adopt a range of meanings, including representing the stock price in financial modelling.
 
@@ -253,7 +257,7 @@ The basic Wiener process can take negative values, which made it unsuitable for 
     content: [
       {
         type: "p",
-        text: `However, Brownian motion showed no uses to the financial industry until mathematician Norbert Wiener defined the Wiener process in 1918. Wiener defined a way to calculate the probability of a particle taking a specific set of paths - this is known as the Wiener process.`,
+        text: `Brownian motion showed no uses to the financial industry until mathematician Norbert Wiener defined the Wiener process in 1918. Wiener defined a way to calculate the probability of a particle taking a specific set of paths - this is known as the Wiener process.`,
       },
       {
         type: "p",
@@ -745,13 +749,13 @@ Furthermore, Fukushima also had long term impacts on Japan's economy. Immediatel
 
   {
      id: "furthre reading",
-  title: "Furthre reading",
-  short: "links to useful sites",
+  title: "Further reading",
+  short: "links to useful sites/Declaration of generative AI",
   pinsByDefault: true,
   description: ``,
   content: [
   {type:`p`, text: `By the time you have reached here, hopefully you have a good understanding of how physics is used in finance now, or at least the flow of the process. However, this is just the tip of the iceberg. There are so many things that we haven't discussed on this website, such as more sophisticated models, how to actually pick the value of parameters, etc. This field of physics is very hard and thus well paid in society! So, if any of the readers are interested in further resources, here are some good starting points.`},
-  // Option A: type "p" with an HTML <a> tag inside the text string
+  
 
 {
   type: "p",
@@ -785,6 +789,10 @@ Furthermore, Fukushima also had long term impacts on Japan's economy. Immediatel
 {
   type: "p",
   text: `GBM tutorial (QuantStart): <a href="https://www.quantstart.com/articles/Geometric-Brownian-Motion/" target="_blank" rel="noreferrer">practical explanation + formulas</a>.`,
+},
+{
+  type: "p",
+  text:`We have used generative AI to help us proof read our work, and to help us in coding for animation and debugging the website`
 }
   ]
   }

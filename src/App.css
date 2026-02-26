@@ -303,6 +303,11 @@ body {
   gap: 12px;
 }
 
+.stepPanel .stepTitle {
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
 .stepHeader {
   display: grid;
   gap: 4px;
@@ -415,6 +420,10 @@ body {
 }
 
 /* --- Workspace --- */
+.wsCardTitle {
+  font-weight: 700;
+}
+
 .workspace {
   display: grid;
   gap: 14px;

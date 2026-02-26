@@ -442,7 +442,7 @@ z = \frac{W_T}{\sqrt{T}} = ${z.toFixed(3)}
               checked={showEnvelope}
               onChange={(e) => setShowEnvelope(e.target.checked)}
             />{" "}
-            Show \( \pm \<sqrt>t</sqrt> \) envelope
+            Show uncertainty envelope
           </label>
         </div>
       </div>

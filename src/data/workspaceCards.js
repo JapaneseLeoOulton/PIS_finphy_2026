@@ -10,7 +10,7 @@ export const workspaceCards = [
     height: 150,
   },
 
-  // Future cards (keep placeholders now; add visuals later)
+  
   {
     id: "wiener",
     title: "Wiener process",
